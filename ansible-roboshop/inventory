@@ -18,11 +18,15 @@ cart.mydomainproject.tech
 
 [dispatch]
 dispatch.mydomainproject.tech
+
 [mysql]
 mysql.mydomainproject.tech
+
 [payment]
 payment.mydomainproject.tech
+
 [rabitmq]
 rabitmq.mydomainproject.tech
+
 [shipping]
 shipping.mydomainproject.tech
