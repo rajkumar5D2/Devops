@@ -1,0 +1,5 @@
+- name: connecting to node-1
+  hosts: centos
+  tasks:
+    - name: printing something
+      ansible.builtin.shell: echo hi hello how are you > /tmp/hello.txt

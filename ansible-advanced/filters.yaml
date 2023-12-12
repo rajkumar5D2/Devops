@@ -1,0 +1,17 @@
+- name: filter test
+  hosts: localhost
+  vars:
+    NAME: raj
+    WEBSITE: https://github.com/rajkumar5D2/Devops/tree/main/ansible-advanced
+  tasks:
+    - name: upper filter
+      debug:
+        msg: "hi, {{ NAME | upper}}"
+
+    - name: default values
+      debug:
+        msg: "hello, {{ VALUE | default('devops')}}"
+
+    - name: testing url split
+      ansible.builtin.debug:
+        msg: "{{ WEBSITE | urlsplit('hostname')}}"
