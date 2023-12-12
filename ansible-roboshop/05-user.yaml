@@ -72,4 +72,4 @@
         state: installed
 
     - name: loading schema
-      ansible.builtin.command: mongo --host 172.31.38.143 < /app/schema/user.js
+      ansible.builtin.command: mongo --host mongodb.mydomainproject.tech < /app/schema/user.js
