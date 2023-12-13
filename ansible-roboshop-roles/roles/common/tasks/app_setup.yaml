@@ -2,7 +2,6 @@
   ansible.builtin.command: id roboshop
   register: output
   ignore_errors: true
-
 - when: output.rc != 0
   become: yes
   ansible.builtin.user:
@@ -12,7 +11,6 @@
   ansible.builtin.stat:
     path: /app
   register: directory
-
 - when: directory.stat.exists == false
   ansible.builtin.file:
     path: /app
