@@ -7,6 +7,5 @@
   ansible.builtin.yum:
     name: mongodb-org-shell
     state: installed
-
-- name: "loading the {{component}} schema"
-  ansible.builtin.command: "mongo --host mongodb.mydomainproject.tech < /app/schema/{{component}}.js"
+# - name: "loading the {{component}} schema"
+#   ansible.builtin.command: "mongo --host mongodb.mydomainproject.tech < /app/schema/{{component}}.js"

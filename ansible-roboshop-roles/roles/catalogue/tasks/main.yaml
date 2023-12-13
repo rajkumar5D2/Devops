@@ -20,7 +20,16 @@
     name: common #dir
     tasks_from: load_schema # file name without ext
 
+- name: loading the schema
+  ansible.builtin.command: mongo --host mongodb.mydomainproject.tech < /app/schema/catalogue.js
+
 - name: system reloads
   ansible.builtin.import_role:
     name: common #dir
     tasks_from: systemd_setup # file name without ext
+
+- name: restart catalogue service
+  ansible.builtin.service:
+    name: catalogue
+    state: restarted
+    enabled: true

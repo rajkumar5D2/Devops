@@ -6,9 +6,8 @@
 - name: making daemon-reload
   ansible.builtin.systemd:
     daemon-reload: true
-
-- name: restart {{component}}
-  ansible.builtin.service:
-    name: "{{component}}"
-    state: restarted
-    enabled: true
+# - name: restart {{component}}
+#   ansible.builtin.service:
+#     name: "{{component}}"
+#     state: restarted
+#     enabled: true
