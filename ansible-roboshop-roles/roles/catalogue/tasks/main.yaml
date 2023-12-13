@@ -1,29 +1,65 @@
 #refer nodejs installation tasks from common/tasks.nodejs.yaml
 #importing nodejs installing code from commons dir
-- name: installing nodejs
-  ansible.builtin.import_role:
-    name: common #dir
-    tasks_from: nodejs # file name without ext
+- name: downloading node repos
+  ansible.builtin.shell:
+    cmd: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 
-- name: setup application
-  ansible.builtin.import_role:
-    name: common #dir
-    tasks_from: app_setup # file name without ext
+- name: install nodejs
+  ansible.builtin.yum:
+    name: nodejs
+    state: installed
+
+- name: check roboshop user existence
+  ansible.builtin.command: id roboshop
+  register: output
+  ignore_errors: true
+- when: output.rc != 0
+  ansible.builtin.user:
+    name: roboshop
+
+- name: creating directory /app
+  ansible.builtin.stat:
+    path: /app
+  register: directory
+- when: directory.stat.exists == false
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: download the code artifact
+  ansible.builtin.get_url:
+    url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+    dest: /tmp
+
+- name: extract the zip file downloaded
+  ansible.builtin.unarchive:
+    src: /tmp/catalogue.zip
+    dest: /app
+    remote_src: yes
 
 - name: install dependencies
   ansible.builtin.command: npm install
   args:
     chdir: /app
 
-- name: system reloads
-  ansible.builtin.import_role:
-    name: common #dir
-    tasks_from: systemd_setup # file name without ext
+- name: copying catalogue.service data
+  ansible.builtin.copy:
+    src: 02.01-catalogue.service
+    dest: /etc/systemd/system/catalogue.service
 
-- name: load schema
-  ansible.builtin.import_role:
-    name: common #dir
-    tasks_from: load_schema # file name without ext
+- name: making daemon-reload
+  ansible.builtin.systemd:
+    daemon-reload: true
+
+- name: copyiny the contect to mongo.repo
+  ansible.builtin.copy:
+    src: 01.1-mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: installing mongodb org shell
+  ansible.builtin.yum:
+    name: mongodb-org-shell
+    state: installed
 
 - name: loading the schema
   ansible.builtin.command: mongo --host mongodb.mydomainproject.tech < /app/schema/catalogue.js
