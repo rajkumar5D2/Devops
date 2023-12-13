@@ -21,7 +21,7 @@
     tasks_from: load_schema # file name without ext
 
 - name: loading the schema
-  ansible.builtin.command: mongo --host mongodb.mydomainproject.tech < /app/schema/catalogue.js
+  ansible.builtin.command: mongo --host mongodb.mydomainproject.tech </app/schema/catalogue.js
 
 - name: system reloads
   ansible.builtin.import_role:
