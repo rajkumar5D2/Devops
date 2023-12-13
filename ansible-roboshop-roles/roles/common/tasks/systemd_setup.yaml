@@ -1,0 +1,15 @@
+- name: "copying {{component}}.service data"
+  ansible.builtin.copy:
+    src: "02.01-{{component}}.service"
+    dest: "/etc/systemd/system/{{component}}.service"
+
+- name: making daemon-reload
+  ansible.builtin.systemd:
+    daemon-reload: true
+    state: restarted
+    name: "{{component}}"
+
+- name: restart {{component}}
+  ansible.builtin.service:
+    name: "{{component}}"
+    state: retstarted
