@@ -11,7 +11,7 @@
 - name: creating directory /app
   ansible.builtin.stat:
     path: /app
-    register: directory
+  register: directory
 
 - when: directory.stat.exists == false
   ansible.builtin.file:
