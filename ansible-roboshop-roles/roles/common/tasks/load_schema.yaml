@@ -9,4 +9,4 @@
     state: installed
 
 - name: "loading the {{component}} schema"
-  ansible.builtin.command: mongo --host mongodb.mydomainproject.tech < /app/schema/{{component}}.js
+  ansible.builtin.command: "mongo --host mongodb.mydomainproject.tech < /app/schema/{{component}}.js"
