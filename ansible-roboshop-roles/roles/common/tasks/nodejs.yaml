@@ -1,0 +1,8 @@
+- name: downloading node repos
+  ansible.builtin.shell:
+    cmd: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+- name: install nodejs
+  ansible.builtin.yum:
+    name: nodejs
+    state: installed

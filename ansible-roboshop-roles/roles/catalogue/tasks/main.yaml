@@ -1,0 +1,6 @@
+#refer nodejs installation tasks from common/tasks.nodejs.yaml
+#importing nodejs installing code from commons dir
+- name: installing nodejs
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: nodejs # file name without ext
