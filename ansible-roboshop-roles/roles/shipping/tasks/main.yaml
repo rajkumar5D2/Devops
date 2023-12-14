@@ -1,0 +1,38 @@
+- name: install maven
+  ansible.builtin.yum:
+    name: maven
+    state: installed
+
+- name: setup application
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: app_setup
+
+- name: changing into the app directory
+  ansible.builtin.command: mvn clean package
+  args:
+    chdir: /app
+
+- name: downloading shipping.zar
+  ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+  args:
+    chdir: /app
+
+- name: system reloads
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: systemd_setup
+
+- name: install mysql client s/w
+  ansible.builtin.yum:
+    name: mysql
+    state: installed
+
+- name: loading schema
+  ansible.builtin.shell: mysql -h mysql.mydomainproject.tech -uroot -pRoboShop@1 < /app/schema/shipping.sql
+
+- name: restart service
+  ansible.builtin.service:
+    name: shipping
+    state: restarted
+    enabled: true
