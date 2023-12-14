@@ -1,0 +1,20 @@
+#setting up node envi
+- name: installing nodejs
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: nodejs
+
+- name: setup application
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: app_setup
+
+- name: changing into the app directory
+  ansible.builtin.command: npm install
+  args:
+    chdir: /app
+
+- name: system reloads
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: systemd_setup
