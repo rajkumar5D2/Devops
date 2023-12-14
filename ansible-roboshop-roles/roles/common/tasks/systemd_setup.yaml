@@ -1,6 +1,6 @@
 - name: "copying {{component}}.service data"
   ansible.builtin.copy:
-    src: "02.01-{{component}}.service"
+    src: "{{component}}.service"
     dest: "/etc/systemd/system/{{component}}.service"
 
 - name: making daemon-reload

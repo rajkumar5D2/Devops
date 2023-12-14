@@ -1,0 +1,24 @@
+- name: installing nodejs
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: nodejs # file name without ext
+
+- name: setup application
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: app_setup
+
+- name: installing dependencies
+  ansible.builtin.command: npm install
+  args:
+    chdir: /app
+
+- name: system reloads
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: systemd_setup
+
+- name: load schema
+  ansible.builtin.import_role:
+    name: common #dir
+    tasks_from: load_schema
