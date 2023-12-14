@@ -1,41 +1,41 @@
- - name: installing nginx service
-      ansible.builtin.yum:
-        name: nginx
-        state: installed
+- name: installing nginx service
+  ansible.builtin.yum:
+    name: nginx
+    state: installed
 
-    - name: starting nginx
-      ansible.builtin.service:
-        name: nginx
-        state: started
-        enabled: true
+- name: starting nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
 
-    - name: removing existence files
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: absent
+- name: removing existence files
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: absent
 
-    - name: creating new with our files
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: directory
+- name: creating new with our files
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
 
-    - name: downloading our files
-      ansible.builtin.get_url:
-        url: https://roboshop-builds.s3.amazonaws.com/web.zip
-        dest: /tmp
+- name: downloading our files
+  ansible.builtin.get_url:
+    url: https://roboshop-builds.s3.amazonaws.com/web.zip
+    dest: /tmp
 
-    - name: extracting the files into html dir
-      ansible.builtin.unarchive:
-        src: /tmp/web.zip
-        dest: /usr/share/nginx/html
-        remote_src: yes
+- name: extracting the files into html dir
+  ansible.builtin.unarchive:
+    src: /tmp/web.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
 
-    - name: copying content to roboshop.conf
-      ansible.builtin.copy:
-        src: 03.01-roboshop.conf
-        dest: /etc/nginx/default.d/roboshop.conf
+- name: copying content to roboshop.conf
+  ansible.builtin.copy:
+    src: 03.01-roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
 
-    - name: restarting nginx
-      ansible.builtin.service:
-        name: nginx
-        state: restarted
+- name: restarting nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
